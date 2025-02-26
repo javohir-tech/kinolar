@@ -8,14 +8,13 @@
                 <div class="d-flex align-itmes-center gap-5">
                     <h4 class="mb-0">{{ kino.viewers }}</h4>
                     <div class="list-icons d-flex gap-3">
-                        <button @click="$emit('toggle-favorite', kino.id)" class="btn border-0">
+                        <button @click="$emit('toggleHandle', { id: kino.id, prop: 'favorite' })" class="btn border-0">
                             <i class="px-3 py-1 text-warning rounded bi bi-film"></i>
                         </button>
                         <i class="px-3 py-1 text-danger rounded bi bi-trash-fill"
-                        @click="$emit('toggle-delete', kino.id)"
-                        ></i>
+                            @click="$emit('toggle-delete', kino.id)"></i>
                         <i class="px-3 py-1 text-warning rounded bi" :class="[kino.like ? 'bi-star-fill' : 'bi-star']"
-                         @click="$emit('toggle-like', kino.id)"></i>
+                        @click="$emit('toggleHandle', { id: kino.id, prop: 'like' })"></i>
                     </div>
                 </div>
             </div>
