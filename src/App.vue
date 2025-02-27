@@ -2,7 +2,7 @@
   <div class="container">
     <div class="content">
       <AppInfo :allMovies="movies.length" :likedMovies="movies.filter(movie => movie.like === true).length" />
-      <SearchPanel @searchMovie="searchModel" />
+      <SearchPanel @searchMovie="searchModel" @allMovies="" @filterMovies="filterMovies" :selectedFilter="filter"/>
       <MovieList :movies="filteredMovies" @toggleHandle="toggleHandle" @toggle-delete="toggleDelete" />
       <MovieAddForm @add-movie="addNewMovie" />
     </div>
@@ -46,12 +46,25 @@ export default {
           id: 3
         }
       ],
-      search: ""
+      search: "",
+      filter: "allMovies"
     }
   },
   computed: {
     filteredMovies() {
-      return this.movies.filter(item => item.name.toLocaleLowerCase().includes(this.search.toLocaleLowerCase()))
+      let filtered = this.movies
+
+      if (this.search) {
+        filtered = filtered.filter(item => item.name.toLowerCase().includes(this.search.toLocaleLowerCase()))
+      }
+
+      if (this.filter === "favorite") {
+        filtered = filtered.filter(movie => movie.favorite === true)
+      } else if (this.filter === "like") {
+        filtered = filtered.filter(movie => movie.like === true)
+      }
+
+      return filtered
     },
   },
   methods: {
@@ -72,6 +85,9 @@ export default {
     toggleDelete(id) {
       this.movies = this.movies.filter(item => item.id !== id)
     },
+    filterMovies(filterType) {
+      this.filter = filterType
+    }
   }
 }
 </script>
